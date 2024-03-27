@@ -1,3 +1,7 @@
+# Basic Caesar Cipher program
+# Accepts all strings and integer shift values
+# Only rotates alphabetical characters
+
 def ceasar_cipher(str, shift)
   shift = shift % 26    # negative rots allowed
   codepoints = str.codepoints
