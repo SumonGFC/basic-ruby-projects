@@ -14,10 +14,8 @@ def rot_codepoint(code, shift)
     code > 90 ? (return (code+shift) % 90 + 64) : (return code + shift)
   elsif code.between?(97,122)
     code > 122 ? (return (code + shift) % 122 + 96) : (return code + shift)
-  else
-    return code   # leave non-alphabetical chars alone
   end
-  return nil
+  return code   # leave non-alphabetical chars alone
 end
 
 loop do
