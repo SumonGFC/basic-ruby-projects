@@ -6,6 +6,7 @@
 
 def stock_picker(closing_prices)
   streak_indices = find_winning_streaks(closing_prices)
+  return nil if streak_indices.empty?
   gains = 0
   _start = 0
   _end = 0
@@ -22,6 +23,7 @@ def stock_picker(closing_prices)
 end
 
 def find_winning_streaks(closing_prices)
+  return [] if closing_prices.empty?
   green_streaks = []
   i = 0
   increasing = false
@@ -55,5 +57,5 @@ end
 
 
 x = [17,3,6,9,15,8,6,1,10,1, 2,3,1, 100]
-
-p stock_picker(x)
+y = []
+p stock_picker(y)
