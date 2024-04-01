@@ -49,25 +49,33 @@ class MyCar
 end
 
 # https://www.eriktrautman.com/posts/ruby-explained-classes
-class Viking
-  def self.create_warrior(name)
-    # class method - instantiates new instance
-    age = rand(20) + 15
-    health = [age*5, 120].min
-    strength = [age/2, 10].min
-    Viking.new(name, age, health, strength)
-  end
 
-  attr_accessor :name, :age, :health, :strength
-  # @@starting_health = 100
+class Person
+  MAX_HEALTH = 120
 
-  def initialize(name, age, health, strength)
+  def initialize(name, age, health, health_max, strength)
     @name = name
     @age = age
     @health = health
+    @health_max = health_max
     @strength = strength
   end
 
+  def heal
+    self.health += 1 unless self.health + 1 > @health_max
+  end
+end
+
+class Viking < Person
+  attr_accessor :health, :health_max, :strength
+  attr_reader :name, :age
+
+  @@WEAPONS = ["Axe", "Sword", "Mace"]
+
+  def initialize(name, age, health, health_max, strength, weapon)
+    super(name, age, health, health_max, strength)
+    @weapon = weapon
+  end
 
   def take_damage(damage)
     @health -= damage
@@ -75,19 +83,40 @@ class Viking
   end
 
   def shout(str)
-    puts str
+    puts "#{@name}: '#{str}'"
   end
 
   def attack(enemy)
-    p "enemy health:", enemy.health
-    damage = @strength*(0.5 + 0.5*rand)
-    enemy.health -= damage
-    p "now:", enemy.health
+    puts "#{@name} attacks #{enemy.name}!"
+    puts "#{enemy.name}'s health initial: #{enemy.health}"
+    enemy.take_damage((@strength*(0.5 + 0.5*rand)).floor)
+    puts "#{enemy.name}'s health now: #{enemy.health}"
   end
+
+  def heal
+    puts "#{@name}'s initial: health = #{@health}, health_max = #{@health_max}"
+    if @health >= @health_max 
+      puts "Already at max health!"
+    else 
+      2.times { super } # we use the super method here
+      puts "#{@name} casts heal. Health: #{self.health}"
+    end
+  end
+
+  # class method - instantiates new instance
+  def self.create_warrior(name) 
+    age = rand(20) + 15
+    health = [age*5, MAX_HEALTH].min
+    health_max = health
+    strength = [age/2, 10].min
+    Viking.new(name, age, health, health_max, strength, @@WEAPONS[rand(3)])
+  end
+
 end
 
 
 x = Viking.create_warrior("x")
 y = Viking.create_warrior("y")
-
 x.attack(y)
+puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+y.heal
