@@ -48,6 +48,11 @@ class MyCar
   end
 end
 
+
+
+
+
+
 # https://www.eriktrautman.com/posts/ruby-explained-classes
 
 class Person
@@ -68,18 +73,19 @@ end
 
 class Viking < Person
   attr_accessor :health, :health_max, :strength
-  attr_reader :name, :age
+  attr_reader :name, :age, :dead
 
   @@WEAPONS = ["Axe", "Sword", "Mace"]
 
   def initialize(name, age, health, health_max, strength, weapon)
     super(name, age, health, health_max, strength)
+    @dead = false
     @weapon = weapon
   end
 
-  def take_damage(damage)
-    @health -= damage
-    self.shout("OUCH")  # calls instance method
+  def ultimate_attack(enemy)
+    puts "#{@name} uses ultimate attack!"
+    enemy.take_damage(enemy.health)
   end
 
   def shout(str)
@@ -107,11 +113,26 @@ class Viking < Person
   def self.create_warrior(name) 
     age = rand(20) + 15
     health = [age*5, MAX_HEALTH].min
+    puts "#{name}'s health: #{health}"
     health_max = health
     strength = [age/2, 10].min
     Viking.new(name, age, health, health_max, strength, @@WEAPONS[rand(3)])
   end
 
+  protected
+
+  def take_damage(damage)
+    @health -= damage
+    self.shout("OUCH")  # calls instance method
+    die() if @health <= 0
+  end
+
+  private
+
+  def die
+    puts "#{name} has been killed."
+    @dead = true
+  end
 end
 
 
@@ -120,3 +141,5 @@ y = Viking.create_warrior("y")
 x.attack(y)
 puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 y.heal
+x.ultimate_attack(y)
+puts "#{y.name} is dead? #{y.dead}"
