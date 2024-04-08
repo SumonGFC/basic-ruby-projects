@@ -1,5 +1,5 @@
 module Utilities
-  def game_decided?(player_moves, positions)
+  def game_decided?(player_moves)
     rows = []
     cols = []
     diag1 = []
@@ -23,11 +23,5 @@ module Utilities
     return true if (diag1.length == 3 || diag2.length == 3)
 
     return false
-  end
-
-
-  def randomize_players
-    return [0, 1] if rand >= 0.5
-    return [1, 0]
   end
 end
