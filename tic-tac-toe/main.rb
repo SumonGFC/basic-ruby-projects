@@ -1,6 +1,7 @@
 require_relative "lib/game_board.rb"
 
-class Game
+class GameManager
+  # Purpose: Keep track of game state
   attr_reader :player_x, :player_o
 
   ADD = :add
@@ -17,19 +18,43 @@ class Game
   }
 
   def initialize
-    @player_x = "X"
-    @player_o = "O"
+    @game_board = GameBoard.new
+    @player1 = {}
+    @player2 = {:sym, :}
   end
 
-  def get_board(game_board)
-    game_board.state
+  def play_game()
   end
+
+  private
+  
+  def reset_game
+    @game_board.update_board(:reset)
+  end
+
+  def init_players
+    if rand(0..1) == 1
+    end
+  end
+
+  def print_board()
+    @game_board.state.each do |row|
+      puts row.join
+    end
+  end
+
 end
+
+
+def play_game()
+end
+
+
 
 
 # Program
 game_board = GameBoard.new
-game = Game.new
+game = GameHandler.new
 loop do
   print "Would you like to play tic-tac-toe? (y/n): "
   start = gets.chomp
