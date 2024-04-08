@@ -1,4 +1,3 @@
-
 class GameBoard
   # Purpose: control the state of the gameboard display
   # API provides read-access to @state and requests to #update_board
@@ -26,11 +25,14 @@ class GameBoard
   
   def update_board(cmd=nil, player=nil, pos=nil)
     if cmd == :add
+      return "Error: Invalid Position" if invalid_args?(pos, player)
       add_move(player, pos)
+      return "Success: Board Updated"
     elsif cmd == :reset
       reset_board()
+      return "Success: Board Reset"
     else
-      # HANDLE INCORRECT COMMAND PASSED
+      return "Error: Invalid Command"
     end
   end
 
@@ -43,6 +45,47 @@ class GameBoard
   end
 
   def reset_board
-    @state = INIT_STATE.map { |row| row }
+    @state =  INIT_STATE.map { |row| row.dup }
+  end
+
+  def invalid_args?(pos, player)
+    pos.each { |i| return false if (i % 2 != 0) }
+    return false if (player != "X" || player != "O")
+    return true
   end
 end
+
+
+# test_board = GameBoard.new
+# 
+# 
+# status = test_board.update_board(:add, "X", [0,0])
+# status = test_board.update_board(:add, "X", [0,2])
+# status = test_board.update_board(:add, "X", [0,4])
+# status = test_board.update_board(:add, "X", [4,0])
+# status = test_board.update_board(:add, "X", [2,4])
+# status = test_board.update_board(:add, "X", [4,4])
+# test_board.state.each do |row|
+#   puts row.join
+# end
+# 
+# puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# status = test_board.update_board(:reset)
+# test_board.state.each do |row|
+#   puts row.join
+# end
+# 
+# 
+# puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# status = test_board.update_board(:add, "O", [2,0])
+# test_board.state.each do |row|
+#   puts row.join
+# end
+# 
+# 
+# puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# status = test_board.update_board(:reset)
+# test_board.state.each do |row|
+#   puts row.join
+# end
+
