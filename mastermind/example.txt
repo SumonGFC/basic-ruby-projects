@@ -1,0 +1,42 @@
+> Would you like to face me in a game of mastermind? (y/n): y
+> Let's play!
+> Rules: The code maker will choose four numbers between 1 and 6, in a 
+  particular order.
+> It is the code breaker's job to figure out what the four numbers are and
+  their correct order. 
+> The code breaker has 10 tries. 
+> After each try, the code maker will indicate how many numbers are correct and
+  in the correct place, and how many numbers are correct but in the wrong place.
+> If the code maker guesses the correct code within 10 tries, they gets points
+  equal to the number of unused tries.
+> After the first round, the players will switch roles and play the game again.
+> The player with the most points wins.
+> You will play as the code breaker first.
+> Please enter your first guest. Enter four single digit numbers, separated by
+  spaces.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Enter first guess: 1 2 3 4
+> Correct in the correct place: 0
+> Correct but in the wrong place: 2
+> Enter second guess: 3 4 1 2
+> Correct in the correct place: 1
+> Correct but in the wrong place: 1
+> Enter third guess: 2 3 3 4
+> Correct in the correct place: 1
+> Correct but in the wrong place: 0
+
+...
+
+> You Lose!
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> My turn to play the code breaker.
+> Please input your secret code: 1 2 3 4
+> My first guess: 1 2 3 3
+> How many correct and in the correct place?: 3
+> How many correct but in the wrong place?: 0
+> My second guess: 1 2 3 4
+> I win! you loser!
+> Thanks for playing.
