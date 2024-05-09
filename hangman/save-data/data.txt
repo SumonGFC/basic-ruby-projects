@@ -1,0 +1,13 @@
+---
+:word: laptops
+:length: 7
+:guess_list: []
+:tries_left: 6
+:display_arr:
+- _
+- _
+- _
+- _
+- _
+- _
+- _
