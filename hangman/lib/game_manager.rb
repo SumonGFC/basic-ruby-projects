@@ -2,9 +2,12 @@
 
 require 'msgpack'
 require_relative './state_manager'
+require_relative './helpers'
 
 # Manage Game Logic
 class GameManager
+  include Helpers
+
   attr_reader :state
 
   def initialize
@@ -16,53 +19,42 @@ class GameManager
     game.display_state
     puts game.state.word
     guess = game.get_input
-    if game.valid_input?(guess)
-      game.process_input(guess)
-    else
-      puts 'Invalid Input'
-    end
+    game.process_input(guess) if game.valid_input?(guess)
+    puts game.state.word
     game.display_state
-  end
-
-  # GAME INITIALIZATION
-
-  def load_word
-    MessagePack.load(File.read('words.txt')).sample
   end
 
   # GAME DISPLAY
   def display_state
-    puts "#{@state.display_arr.join(' ')} \
+    puts "\n#{@state.display_arr.join(' ')} \
       Tries Left: #{@state.tries_left} \
-      Used: #{@state.guess_list}"
+      Used: #{@state.guess_list}\n\n"
   end
 
   # USER INPUT
-  def get_input
-    gets.chomp.downcase
-  end
-
   def valid_input?(text)
-    !@state.guess_list.include?(text) &&
-      (
-        ['save game', 'load game', 'exit game'].include?(text) ||
-        text.match?(/^[a-z]$/) ||
-        text.match?(/^[a-z]{#{@state.length}}$/)
-      )
+    !already_guessed?(text, @state.guess_list) &&
+      (user_cmd?(text) || word?(text, @state.length) || letter?(text))
   end
 
   # UPDATE STATE
   def process_input(text)
-    if text.length == 1
-      @state.update(text)
-    elsif text.length == @state.length
-      @state.test_word(text)
-    elsif ['save game', 'load game', 'exit game'].include?(text)
-      handle_user_cmd(text)
+    if user_cmd?(text)
+      process_user_cmd(text)
+    else
+      @state.update_state(text, text.length)
     end
   end
 
-  def handle_user_cmd 
+  def process_user_cmd(text)
+    case text
+    when 'save game'
+      @state.save_game
+    when 'load game'
+      @state.load_game
+    when 'exit game'
+      exit_game
+    end
   end
   # CHECK GAME OVER
   
