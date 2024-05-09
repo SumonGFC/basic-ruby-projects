@@ -51,9 +51,9 @@ class GameManager
 
   # UPDATE STATE
   def process_input(text)
-    if text.match?(/^[a-z]$/)
+    if text.length == 1
       @state.update(text)
-    elsif text.match?(/^[a-z]{#{@state.length}}$/)
+    elsif text.length == @state.length
       @state.test_word(text)
     elsif ['save game', 'load game', 'exit game'].include?(text)
       handle_user_cmd(text)
@@ -123,7 +123,7 @@ class StateManager
   end
 
   def save
-    file = File.expand_path('../save-data/data.txt', __dir__)
+    file = File.expand_path('../save-data/data.yml', __dir__)
     data = YAML.dump(
       {
         word: @word,
@@ -137,7 +137,7 @@ class StateManager
   end
 
   def load
-    file = File.expand_path('../save-data/data.txt', __dir__)
+    file = File.expand_path('../save-data/data.yml', __dir__)
     data = File.read(file)
     data = YAML.load(data)
     load_game(data)
