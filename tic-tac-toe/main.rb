@@ -28,11 +28,11 @@ class GameManager
     @used_moves = []
   end
 
-  def show_state
-    puts"player1: #{@players[:player1]}"
-    puts"player2: #{@players[:player2]}"
-    puts"curr_player: #{@players[@curr_player]}"
-  end
+#  def show_state
+#    puts"player1: #{@players[:player1]}"
+#    puts"player2: #{@players[:player2]}"
+#    puts"curr_player: #{@players[@curr_player]}"
+#  end
 
   def prompt_start
     print "Would you like to play a game of Tic-Tac-Toe? (y/n) "
@@ -54,8 +54,8 @@ class GameManager
   end
 
   def play_round
-    puts "BEFORE play_round: "
-    show_state()
+    # puts "BEFORE play_round: "
+    # show_state()
     print_board()
     print "Player #{@players[@curr_player][:id]}, make your move: "
     move = gets.chomp.upcase
@@ -66,10 +66,10 @@ class GameManager
       msg = valid_move?(move)
     end
     @game_board.update_board(:add, @players[@curr_player][:id], POS[move])
-    update_player_state(move) 
+    update_player_state(move)
     update_game_state(move)
-    puts "AFTER play_round: "
-    show_state()
+    # puts "AFTER play_round: "
+    # show_state()
   end
 
   def switch_curr_player
@@ -107,8 +107,6 @@ class GameManager
   end
 
   private
-
-
 
   def init_game
     ids = ["X", "O"]
