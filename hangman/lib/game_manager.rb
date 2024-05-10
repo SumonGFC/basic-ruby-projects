@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'msgpack'
 require_relative './state_manager'
 require_relative './helpers'
 
@@ -16,12 +15,23 @@ class GameManager
 
   def self.play_game
     game = GameManager.new
-    game.display_state
-    puts game.state.word
-    guess = game.get_input
-    game.process_input(guess) if game.valid_input?(guess)
-    puts game.state.word
-    game.display_state
+    until game.game_over?
+      game.display_state
+      print 'Make your guess: '
+      guess = game.get_input
+      until game.valid_input?(guess)
+        puts 'Invalid guess'
+        print 'Make your guess: '
+        guess = game.get_input
+      end
+      game.process_input(guess)
+    end
+
+    if game.game_won?
+      puts "Congrats! You guessed the correct word: #{game.state.word}"
+    else
+      puts "You lose! The correct word was #{game.state.word}"
+    end
   end
 
   # GAME DISPLAY
@@ -50,21 +60,28 @@ class GameManager
     case text
     when 'save game'
       @state.save_game
+      puts 'Game Saved!'
     when 'load game'
       @state.load_game
+      puts 'Game Loaded!'
     when 'exit game'
       exit_game
     end
   end
+
   # CHECK GAME OVER
-  
+  def game_over?
+    @state.tries_left.zero? || game_won?
+  end
+
+  def game_won?
+    @state.display_arr.join('') == @state.word ||
+      @state.guess_list.last == @state.word
+  end
+
   # FINISH GAME
   def exit_game
     puts 'Thanks for playing!'
     exit
   end
 end
-
-# Testing
-
-GameManager.play_game

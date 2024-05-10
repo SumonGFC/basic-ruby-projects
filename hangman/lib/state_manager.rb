@@ -10,7 +10,7 @@ class StateManager
     @word = word
     @length = word.length
     @guess_list = []
-    @tries_left = 6
+    @tries_left = 2 * @word.chars.uniq.length
     @display_arr = Array.new(@length, '_')
   end
 
@@ -50,8 +50,7 @@ class StateManager
 
   def load_game
     file = File.expand_path('../save-data/data.yml', __dir__)
-    data = File.read(file)
-    data = YAML.load(data)
+    data = YAML.load(File.read(file))
     load_game_data(data)
   end
 

@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
+require 'msgpack'
+
 # Helper functions for GameManager
 module Helpers
   def load_word
-    MessagePack.load(File.read('words.txt')).sample
+    file = File.expand_path('../words.txt', __dir__)
+    MessagePack.load(File.read(file)).sample
   end
 
   def get_input
