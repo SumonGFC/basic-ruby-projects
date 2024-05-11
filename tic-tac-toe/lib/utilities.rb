@@ -8,20 +8,20 @@ module Utilities
     player_moves.each do |pos|
       rows.push(pos[0])
       cols.push(pos[1])
-      diag1.push(pos) if pos[0] == pos[1]
-      diag2.push(pos) if (pos.eql?([4,0]) || pos.eql?([2,2]) || pos.eql?([0,4]))
+      diag1.push(pos) if pos.eql?('TL') || pos.eql?('MM') || pos.eql?('BR')
+      diag2.push(pos) if pos.eql?('BL') || pos.eql?('MM') || pos.eql?('TR')
     end
 
     rows.uniq.each do |num|
-      return true if (rows.count(num) == 3)
+      return true if rows.count(num) == 3
     end
 
     cols.uniq.each do |num|
-      return true if (cols.count(num) == 3)
+      return true if cols.count(num) == 3
     end
 
-    return true if (diag1.length == 3 || diag2.length == 3)
+    return true if diag1.length == 3 || diag2.length == 3
 
-    return false
+    false
   end
 end
