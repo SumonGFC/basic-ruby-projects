@@ -1,10 +1,10 @@
-
 # Define a recursive function that finds the factorial of a number.
-def factorial(x)
+def factorial(x, accumulator = 1)
+  # Tail recursive
   if x.zero?
-    1
+    accumulator
   else
-    x * factorial(x - 1)
+    factorial(x - 1, x * accumulator)
   end
 end
 
@@ -90,8 +90,4 @@ def int_to_roman(roman_mapping, number, result = '')
   end
 end
 
-def roman_to_int(roman_mapping, number, result = '')
-  return result if number == ''
-
-
-end
+# Merge Sort: 
