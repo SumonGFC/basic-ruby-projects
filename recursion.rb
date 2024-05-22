@@ -46,6 +46,14 @@ def fibonacci(n)
   fib
 end
 
+# Now write a function that returns an array of the first n fibonacci numbners
+def fibs(n, accum = [0, 1])
+  return accum if n <= 2
+
+  accum << accum[-1] + accum[-2]
+  fibs(n - 1, accum)
+end
+
 # Define a recursive function that flattens an array. The method should convert
 # [[1, 2], [3, 4]] to [1, 2, 3, 4] and [[1, [8, 9]], [3, 4]]
 # to [1, 8, 9, 3, 4].
