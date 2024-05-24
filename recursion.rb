@@ -98,4 +98,41 @@ def int_to_roman(roman_mapping, number, result = '')
   end
 end
 
-# Merge Sort: 
+# Project Euler Problem 1: Multiples of 3 and 5
+# Find the sum of all multiples of 3 or 5 below 1000
+def three_or_five(num, accum = 0)
+  x = ((num - 1) / 3)
+  y = ((num - 1) / 5)
+  z = ((num - 1) / 15)
+  x.times { |i| accum += 3 * (i + 1) }
+  y.times { |i| accum += 5 * (i + 1) }
+  z.times { |i| accum -= 15 * (i + 1) }
+  accum
+  # Alternatively, by direct computation:
+  # accum = 3 * (0.5 * 333 * 334) + 5 * (0.5 * 199 * 200) - 15 * (0.5 * 66 * 67)
+end
+
+def sum_of_threes(num, iter = 1, accum = 0)
+  return accum if iter > ((num - 1) / 3)
+
+  sum_of_threes(num, iter + 1, accum += 3 * iter)
+end
+
+def sum_of_fives(num, iter = 1, accum = 0)
+  return accum if iter > ((num - 1) / 5)
+
+  sum_of_fives(num, iter + 1, accum += 5 * iter)
+end
+
+def filter_fifteens(num, iter = 1, accum = 0)
+  return accum if iter > ((num - 1) / 15)
+
+  filter_fifteens(num, iter + 1, accum -= 15 * iter)
+end
+
+def project_euler_1_recursive(num)
+  result = sum_of_threes(num)
+  result = sum_of_fives(num, 1, result)
+  result = filter_fifteens(num, 1, result)
+  result
+end
