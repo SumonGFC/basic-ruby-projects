@@ -1,3 +1,5 @@
+require 'benchmark'
+
 # Define a recursive function that finds the factorial of a number.
 def factorial(x, accumulator = 1)
   # Tail recursive
@@ -136,3 +138,64 @@ def project_euler_1_recursive(num)
   result = filter_fifteens(num, 1, result)
   result
 end
+
+# Project Euler 2: Find sum of even fibs that are less than 4mil
+def even_fibs_sum(limit, iter = 0, init = [1, 2], accum = 2)
+  # for all n >= 0, F_n is even iff n % 3 = 0
+  if init.last > limit
+    return accum - init.last
+  end
+
+  3.times do
+    init.push(init[-1] + init[-2])
+    init.shift
+  end
+  p init
+  even_fibs_sum(limit, iter + 3, init, accum += init.last)
+end
+
+# Project Euler 3:
+# The prime factors of 13195 are 5, 7, 13, and 29.
+# What is the largest prime factor of 600_851_475_143?
+
+x = 600_851_475_143
+
+def fermat_factor(num)
+  # This is buggy. I don't think I am yet skilled enough to implement this well
+  # Works for the given number (x above) with repeated calls.
+  a = Math.sqrt(num).ceil
+  b_sq = a * a - num
+  until Math.sqrt(b_sq) == Math.sqrt(b_sq).truncate
+    a += 1
+    b_sq = a * a - num
+  end
+  { '+' => a + Math.sqrt(b_sq), '-' => a - Math.sqrt(b_sq) }
+end
+
+def iterative_largest_prime(num)
+  lim = Math.sqrt(num).to_i
+  result = []
+  (2..lim).each do |i|
+    result.push(i) if (num % i).zero? && result.none? { |p| (i % p).zero? }
+  end
+  result
+end
+
+def recursive_primes(num, curr = 3, accum = [], prev_prime = 1, stack_frame_counter = 1)
+  lim = Math.sqrt(num)
+  if curr >= lim
+    p stack_frame_counter # logging
+    return accum.push(num)
+  end
+
+  if (num % curr).zero? && accum.none? { |p| (curr % p).zero? }
+    while (num % curr).zero?
+      accum << curr
+      num = (num / curr)
+    end
+    prev_prime = accum.last
+  end
+  recursive_primes(num, curr + 2, accum, prev_prime, stack_frame_counter + 1)
+end
+
+p recursive_primes(x)
