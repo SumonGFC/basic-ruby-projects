@@ -24,6 +24,7 @@ end
 
 def find_winning_streaks(closing_prices)
   return [] if closing_prices.empty?
+
   green_streaks = []
   i = 0
   increasing = false
@@ -31,14 +32,14 @@ def find_winning_streaks(closing_prices)
   tmp_max = 0
 
   until i + 1 == closing_prices.length
-    if closing_prices[i+1] - closing_prices[i] > 0 # increasing
+    if closing_prices[i + 1] - closing_prices[i] > 0 # increasing
       if increasing == false  # if previously decreasing
         tmp_min = i
         increasing = true
       else
         tmp_max = i
       end
-    else  # decreasing or side-ways
+    else # decreasing or side-ways
       if increasing == true # if previously increasing
         tmp_max = i
         green_streaks.push([tmp_min, tmp_max])
@@ -55,7 +56,23 @@ def find_winning_streaks(closing_prices)
   return green_streaks
 end
 
+def find_inflections(arr)
+  inflections = []
+  i = 0
+  until i == arr.length - 2
+    first, second, third = arr[i], arr[i + 1], arr[i + 2]
 
-x = [17,3,6,9,15,8,6,1,10,1, 2,3,1, 100]
-y = []
-p stock_picker(y)
+    if first < second && second >= third
+      inflections.push({ i_to_d: [first, second, third] })
+    elsif first >= second && second < third
+      inflections.push({ d_to_i: [first, second, third] })
+    end
+    i += 1
+  end
+
+  inflections
+end
+
+x = [17, 3, 6, 9, 15, 8, 6, 1, 10, 1, 2, 3, 1, 100, 101]
+result = find_inflections(x)
+result.each {|r| p r}
