@@ -3,25 +3,30 @@
 # Only rotates alphabetical characters
 
 def ceasar_cipher(str, shift)
-  shift = shift % 26    # negative rots allowed
-  codepoints = str.codepoints
-  codepoints.map! { |val| rot_codepoint(val, shift).chr }
-  return codepoints.join("")
+  # Negative shifts allowed
+  shift %= 26
+  encoded = str.codepoints.map { |val| rot_codepoint(val, shift).chr }
+  encoded.join('')
 end
 
 def rot_codepoint(code, shift)
-  if code.between?(65,90)
-    code > 90 ? (return (code+shift) % 90 + 64) : (return code + shift)
-  elsif code.between?(97,122)
-    code > 122 ? (return (code + shift) % 122 + 96) : (return code + shift)
+  shifted = code + shift
+
+  # Preserve case
+  if code.between?(65, 90)
+    shifted > 90 ? (return (shifted % 90) + 64) : (return shifted)
+  elsif code.between?(97, 122)
+    shifted > 122 ? (return (shifted % 122) + 96) : (return shifted)
   end
-  return code   # leave non-alphabetical chars alone
+
+  # Leave non-alphabetical chars alone
+  code
 end
 
-loop do
-  puts "Enter str"
-  x = gets.chomp
-  puts "Enter shift"
-  y = (gets.chomp).to_i
-  puts ceasar_cipher(x, y)
-end
+# loop do
+#   puts 'Enter str'
+#   x = gets.chomp
+#   puts 'Enter shift'
+#   y = gets.chomp.to_i
+#   puts ceasar_cipher(x, y)
+# end
