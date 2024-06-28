@@ -1,7 +1,14 @@
+# frozen_string_literal: true
+
 require_relative '../caesar_cipher'
 
 describe 'Caesar Cipher' do
   describe '#rot_codepoint' do
+    before :all do
+      @uppers = *65..90
+      @downers = *97..122
+    end
+
     it 'raises ArgumentError if either input is not an integer' do
       expect { rot_codepoint('a', nil) }.to raise_error(ArgumentError)
       expect { rot_codepoint('a', 1) }.to raise_error(ArgumentError)
@@ -12,14 +19,31 @@ describe 'Caesar Cipher' do
       expect { rot_codepoint(128, 0) }.to raise_error(RangeError)
       expect { rot_codepoint(-1, 0) }.to raise_error(RangeError)
     end
-  end
 
-  it 'returns original string if key is congruent to 26' do
-    expect(rot_codepoint(74, 0)).to eq(74)
-    expect(rot_codepoint(74, 26)).to eq(74)
-    expect(rot_codepoint(74, -26)).to eq(74)
-    expect(rot_codepoint(74, 52)).to eq(74)
-    expect(rot_codepoint(74, -52)).to eq(74)
+    it 'returns original string if key is congruent to 26' do
+      expect(rot_codepoint(74, 0)).to eq(74)
+      expect(rot_codepoint(74, 26)).to eq(74)
+      expect(rot_codepoint(74, -26)).to eq(74)
+      expect(rot_codepoint(74, 52)).to eq(74)
+      expect(rot_codepoint(74, -52)).to eq(74)
+    end
+
+    it 'shifts properly (wrap)' do
+      @uppers[1...-1].each do |code|
+        expect(rot_codepoint(code, 25)).to eq(code - 1)
+      end
+
+      @downers[1...-1].each do |code|
+        expect(rot_codepoint(code, 25)).to eq(code - 1)
+      end
+    end
+
+    it 'shifts properly (no wrap)' do
+    end
+
+    it 'leaves non alphabetical codepoints the same' do
+    end
+
   end
 
   describe '#caesar-cipher' do
