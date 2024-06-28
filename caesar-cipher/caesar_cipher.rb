@@ -9,6 +9,7 @@ end
 
 def rot_codepoint(code, shift)
   raise ArgumentError unless code.is_a?(Integer) && shift.is_a?(Integer)
+  raise RangeError unless code.between?(0, 127)
 
   # Negative shifts allowed
   shifted = code + (shift % 26)
