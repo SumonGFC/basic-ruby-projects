@@ -8,9 +8,10 @@ describe 'Caesar Cipher' do
       expect { rot_codepoint(10, []) }.to raise_error(ArgumentError)
     end
 
-    # it 'throws error if code is out of bounds' do
-    #   expect(rot_codepoint(128, 0)).to eq
-    # end
+    it 'raises RangeError if code is out of bounds' do
+      expect { rot_codepoint(128, 0) }.to raise_error(RangeError)
+      expect { rot_codepoint(-1, 0) }.to raise_error(RangeError)
+    end
   end
 
   describe '#caesar-cipher' do
@@ -19,7 +20,7 @@ end
 
 # rot_codepoint:
 # - input types -- DONE
-# - input ranges --
+# - input ranges -- DONE
 # - doesn't shift if key is congruent to 26
 # - shift properly (no wrap) (lower + upper)
 # - shift properly (wrap) (lower + upper)
