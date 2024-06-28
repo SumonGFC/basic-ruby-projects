@@ -8,7 +8,7 @@ def ceasar_cipher(str, shift)
 end
 
 def rot_codepoint(code, shift)
-  return nil unless code.is_a?(Integer) && shift.is_a?(Integer)
+  raise ArgumentError unless code.is_a?(Integer) && shift.is_a?(Integer)
 
   # Negative shifts allowed
   shifted = code + (shift % 26)

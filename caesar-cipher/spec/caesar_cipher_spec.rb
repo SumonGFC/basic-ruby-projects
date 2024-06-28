@@ -2,11 +2,15 @@ require_relative '../caesar_cipher'
 
 describe 'Caesar Cipher' do
   describe '#rot_codepoint' do
-    it 'returns nil if either input is not an integer' do
-      expect(rot_codepoint('a', nil)).to eq(nil)
-      expect(rot_codepoint('a', 1)).to eq(nil)
-      expect(rot_codepoint(10, [])).to eq(nil)
+    it 'raises ArgumentError if either input is not an integer' do
+      expect { rot_codepoint('a', nil) }.to raise_error(ArgumentError)
+      expect { rot_codepoint('a', 1) }.to raise_error(ArgumentError)
+      expect { rot_codepoint(10, []) }.to raise_error(ArgumentError)
     end
+
+    # it 'throws error if code is out of bounds' do
+    #   expect(rot_codepoint(128, 0)).to eq
+    # end
   end
 
   describe '#caesar-cipher' do
@@ -14,8 +18,9 @@ describe 'Caesar Cipher' do
 end
 
 # rot_codepoint:
-# - input types
-# - input ranges
+# - input types -- DONE
+# - input ranges --
+# - doesn't shift if key is congruent to 26
 # - shift properly (no wrap) (lower + upper)
 # - shift properly (wrap) (lower + upper)
 # - no shift for code points outside of range
