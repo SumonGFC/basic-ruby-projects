@@ -3,7 +3,7 @@
 # Only rotates alphabetical characters
 
 def ceasar_cipher(str, shift)
-  encoded = str.codepoints.map { |val| rot_codepoint(val, shift).chr }
+  encoded = str.to_s.codepoints.map { |val| rot_codepoint(val, shift).chr }
   encoded.join('')
 end
 

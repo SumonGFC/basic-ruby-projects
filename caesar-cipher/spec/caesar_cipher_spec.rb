@@ -7,6 +7,7 @@ describe 'Caesar Cipher' do
     before :all do
       @uppers = *65..90
       @downers = *97..122
+      @non_alphas = [*0..64] + [*91..96] + [*123..127]
     end
 
     it 'raises ArgumentError if either input is not an integer' do
@@ -39,11 +40,20 @@ describe 'Caesar Cipher' do
     end
 
     it 'shifts properly (no wrap)' do
+      @uppers[0...-1].each do |code|
+        expect(rot_codepoint(code, 1)).to eq(code + 1)
+      end
+
+      @downers[0...-1].each do |code|
+        expect(rot_codepoint(code, 1)).to eq(code + 1)
+      end
     end
 
     it 'leaves non alphabetical codepoints the same' do
+      @non_alphas.each do |code|
+        expect(rot_codepoint(code, 1)).to eq(code)
+      end
     end
-
   end
 
   describe '#caesar-cipher' do
