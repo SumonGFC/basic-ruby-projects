@@ -1,4 +1,4 @@
-require_relative '../caesar-cipher'
+require_relative '../caesar_cipher'
 
 describe 'Caesar Cipher' do
   describe '#rot_codepoint' do
